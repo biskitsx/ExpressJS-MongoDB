@@ -9,6 +9,16 @@ var usersRouter = require('./routes/users');
 
 var app = express();
 
+//import
+const mongoose = require('mongoose');
+const products = require('./routes/products');
+require('dotenv').config()
+
+mongoose.Promise = global.Promise ;
+mongoose.connect(process.env.MONGO_URI)
+    .then(()=>{console.log('connection succesfully!')})
+    .catch((err)=>console.log(err))
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -21,6 +31,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/products',products);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
